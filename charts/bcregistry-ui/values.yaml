@@ -1,9 +1,9 @@
-# Default values for bcregistry-api.
+# Default values for bcregistry-ui.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 environment: "dev"
-role: "api"
+role: "ui"
 
 image:
   repository: "image-registry.openshift-image-registry.svc:5000"
@@ -11,12 +11,8 @@ image:
   pullPolicy: "IfNotPresent"
   pullSecrets:
     - name: artifactory-creds
-  digest: ""
+  digest: "sha256:953e89d9882cf710750ee760e557d8b49381691fe6bee0bbe9675de1c6679b6e"
   tag: "dev"
-
-migrations:
-  enabled: true
-  command: "/opt/app-root/pre-hook-update-db.sh"
 
 ports:
   containerPort: 8080
@@ -30,8 +26,8 @@ revisionHistoryLimit: 10
 
 livenessProbe:
   httpGet:
-    path: /ops/healthz
-    port: 8080
+    path: /
+    port: http
     scheme: HTTP
   initialDelaySeconds: 3
   timeoutSeconds: 1
@@ -41,8 +37,8 @@ livenessProbe:
 
 readinessProbe:
   httpGet:
-    path: /ops/readyz
-    port: 8080
+    path: /
+    port: http
     scheme: HTTP
   initialDelaySeconds: 3
   timeoutSeconds: 30
@@ -68,8 +64,8 @@ env:
   #   secure: true
 
 envFrom:
-  secretRef: true
-  configMapRef: false
+  secretRef: false
+  configMapRef: true
 
 service:
   type: ClusterIP
