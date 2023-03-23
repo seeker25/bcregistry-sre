@@ -1,4 +1,4 @@
-name: UI CD
+name: UI CD for OCP
 
 on:
   workflow_call:
@@ -18,13 +18,26 @@ on:
         required: true
       OP_CONNECT_TOKEN:
         required: true
-
+      OPENSHIFT4_LOGIN_REGISTRY:
+        required: true
+      OPENSHIFT4_SA_TOKEN:
+        required: true
+      OPS_REPOSITORY:
+        required: true
+      OPENSHIFT_DOCKER_REGISTRY:
+        required: true
+      OPENSHIFT_SA_NAME:
+        required: true
+      OPENSHIFT_SA_TOKEN:
+        required: true
+      OPENSHIFT_REPOSITORY:
+        required: true
 defaults:
   run:
     shell: bash
 
 jobs:
-  ui-cd-worklfow:
+  ui-cd-ocp-worklfow:
     # Only allow run the CD flow in protected branch
     if: github.ref_protected == true
 
@@ -60,31 +73,12 @@ jobs:
 
       # Get environment variables from 1password
       - name: Setup .env file
-
         env:
           OP_CONNECT_HOST: ${{ secrets.OP_CONNECT_URL }}
           OP_CONNECT_TOKEN: ${{ secrets.OP_CONNECT_TOKEN }}
           APP_ENV: ${{ env.ENVIRONMENT }}
         run: |
           op inject -i ./devops/vaults.env -o .env -f
-
-          NODE_VERSION=$(op read -n op://CD/app-version/NODE_VERSION)
-          echo "::add-mask::$NODE_VERSION"
-          echo NODE_VERSION=$NODE_VERSION >> $GITHUB_ENV
-
-          FIREBASE_HOST_NAME=$(op read -n op://CD/${{ env.ENVIRONMENT }}/${{ secrets.APP_NAME }}/FIREBASE_HOST_NAME)
-          echo "::add-mask::$FIREBASE_HOST_NAME"
-          echo FIREBASE_HOST_NAME=$FIREBASE_HOST_NAME >> $GITHUB_ENV
-
-          WORKLOAD_IDENTIFY_POOLS_PROVIDER=$(op read -n op://CD/${{ env.ENVIRONMENT }}/base/WORKLOAD_IDENTIFY_POOLS_PROVIDER)
-          echo "::add-mask::$WORKLOAD_IDENTIFY_POOLS_PROVIDER"
-          echo WORKLOAD_IDENTIFY_POOLS_PROVIDER=$WORKLOAD_IDENTIFY_POOLS_PROVIDER >> $GITHUB_ENV
-
-          GCP_SERVICE_ACCOUNT=$(op read -n op://CD/${{ env.ENVIRONMENT }}/base/GCP_SERVICE_ACCOUNT)
-          echo "::add-mask::$GCP_SERVICE_ACCOUNT"
-          echo GCP_SERVICE_ACCOUNT=$GCP_SERVICE_ACCOUNT >> $GITHUB_ENV
-
-
 
       # Add git tag
       - name:  Add git tag
