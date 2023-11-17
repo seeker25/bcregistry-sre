@@ -1,4 +1,4 @@
-title: "CD Cloud Run"
+title: "Role Job"
 description: "Role for cloud run CD flow."
 stage: "GA"
 includedPermissions:
@@ -19,10 +19,6 @@ includedPermissions:
 - run.jobs.create
 - run.jobs.update
 - run.jobs.run
-- run.services.get
-- run.services.list
-- run.services.create
-- run.services.update
 - run.routes.get
 - run.routes.list
 - run.routes.invoke

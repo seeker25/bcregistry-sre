@@ -1,5 +1,5 @@
-title: "CD Cloud Run"
-description: "Role for cloud run CD flow."
+title: "Role API"
+description: "Role for API services."
 stage: "GA"
 includedPermissions:
 - resourcemanager.projects.get
@@ -14,11 +14,6 @@ includedPermissions:
 - artifactregistry.tags.get
 - run.executions.get
 - run.executions.list
-- run.jobs.get
-- run.jobs.list
-- run.jobs.create
-- run.jobs.update
-- run.jobs.run
 - run.services.get
 - run.services.list
 - run.services.create
