@@ -5,8 +5,8 @@
 
 #declare -a projects=("")
 
-#declare -a environments=("dev" "test" "tools" "prod" "integration" "sandbox")
-declare -a roles=("developer")
+declare -a environments=("prod")
+declare -a roles=("itops")
 
 for user in "${users[@]}"
 do
@@ -26,10 +26,6 @@ do
                     ROLE_NAME="role$ro"
                     FULL_ROLE_NAME="projects/${PROJECT_ID}/roles/$ROLE_NAME"
                     ROLE_FILE=role-$ro.yaml
-
-                    if [ $ev = 'dev' ]; then
-                        ROLE_FILE=role-$ro-dev.yaml
-                    fi
 
                     echo "role: $ROLE_NAME"
 
