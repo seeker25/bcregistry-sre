@@ -202,9 +202,6 @@ steps:
     RELEASE_NAME=$(echo "$RELEASE_NAME" | awk -F'/' '{print $NF}')
     echo "Release name: $RELEASE_NAME"
 
-    # Initialize retry count to 0
-    RETRY_COUNT=0
-
     # Loop until the maximum retries is reached or the release is complete
     while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
       # Get the status of the release
